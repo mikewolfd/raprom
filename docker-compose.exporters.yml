@@ -49,7 +49,6 @@ services:
     restart: unless-stopped
     ports:
       - 9101:9101
-    networks:
-      - monitor-net
+    network_mode: host
     labels:
       org.label-schema.group: "monitoring"
