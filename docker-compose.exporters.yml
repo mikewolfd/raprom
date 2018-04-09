@@ -3,7 +3,7 @@ version: '2.1'
 services:
 
   nodeexporter:
-    image: prom/node-exporter:v0.15.0
+    image: prom/node-exporter:latest
     container_name: nodeexporter
     user: root
     privileged: true
@@ -23,7 +23,7 @@ services:
       org.label-schema.group: "monitoring"
 
   cadvisor:
-    image: google/cadvisor:v0.28.3
+    image: google/cadvisor:latest
     container_name: cadvisor
     volumes:
       - /:/rootfs:ro
@@ -39,3 +39,17 @@ services:
       org.label-schema.group: "monitoring"
   
 
+  nvidiaexporter:
+    build:
+      context: .
+      dockerfile: ./nvidia-smi/Dockerfile
+    container_name: nvidiaexporter
+    user: root
+    privileged: true
+    restart: unless-stopped
+    ports:
+      - 9101:9101
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"

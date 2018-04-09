@@ -11,7 +11,7 @@ volumes:
 services:
 
   prometheus:
-    image: prom/prometheus:v2.2.0-rc.0
+    image: prom/prometheus:latest
     container_name: prometheus
     volumes:
       - ./prometheus/:/etc/prometheus/
@@ -32,7 +32,7 @@ services:
       org.label-schema.group: "monitoring"
   
   alertmanager:
-    image: prom/alertmanager:v0.14.0
+    image: prom/alertmanager:latest
     container_name: alertmanager
     volumes: 
       - ./alertmanager/:/etc/alertmanager/
@@ -48,7 +48,7 @@ services:
       org.label-schema.group: "monitoring"
 
   nodeexporter:
-    image: prom/node-exporter:v0.15.2
+    image: prom/node-exporter:latest
     container_name: nodeexporter
     user: root
     privileged: true
@@ -68,8 +68,23 @@ services:
     labels:
       org.label-schema.group: "monitoring"
 
+  nvidiaexporter:
+    build:
+      context: .
+      dockerfile: ./nvidia-smi/Dockerfile
+    container_name: nvidiaexporter
+    user: root
+    privileged: true
+    restart: unless-stopped
+    expose:
+      - 9101
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+
   cadvisor:
-    image: google/cadvisor:v0.28.3
+    image: google/cadvisor:latest
     container_name: cadvisor
     volumes:
       - /:/rootfs:ro
@@ -86,7 +101,7 @@ services:
       org.label-schema.group: "monitoring"
   
   grafana:
-    image: grafana/grafana:4.6.3
+    image: grafana/grafana:latest
     container_name: grafana
     volumes:
       - grafana_data:/var/lib/grafana
