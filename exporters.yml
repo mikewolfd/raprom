@@ -6,13 +6,6 @@ services:
     image: prom/node-exporter:latest
     ports:
       - "9100:9100"
-    deploy:
-      mode: global
-      resources:
-        limits:
-          memory: 128M
-        reservations:
-          memory: 64M
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -29,13 +22,6 @@ services:
     image: google/cadvisor:latest
     ports:
       - "8080:8080"
-    deploy:
-      mode: global
-      resources:
-        limits:
-          memory: 128M
-        reservations:
-          memory: 64M
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /:/rootfs:ro
@@ -49,10 +35,3 @@ services:
     image: mikewolfd/nvidiadocprom
     ports:
       - "9101:9101"
-    deploy:
-      mode: global
-      resources:
-        limits:
-          memory: 128M
-        reservations:
-          memory: 64M
