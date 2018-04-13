@@ -2,8 +2,7 @@ version: '3.3'
 
 networks:
   monitor-net:
-    driver: overlay
-    attachable: true
+    driver: bridge
 
 volumes:
     prometheus_data: {}
