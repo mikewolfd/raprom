@@ -1,0 +1,63 @@
+version: '3.3'
+
+networks:
+  monitor-net:
+    driver: overlay
+    attachable: true
+
+services:
+
+  nodeexporter:
+    image: prom/node-exporter:latest
+    networks:
+      - monitor-net
+    deploy:
+      mode: global
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.textfile.directory=/etc/node-exporter/'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+      - '--no-collector.ipvs'
+
+
+  cadvisor:
+    image: google/cadvisor:latest
+    networks:
+      - monitor-net
+    deploy:
+      mode: global
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    command: -logtostderr -docker_only
+
+
+  nvidiaexporter:
+    image: mikewolfd/nvidiadocprom
+    deploy:
+      mode: global
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+    networks:
+      - monitor-net
