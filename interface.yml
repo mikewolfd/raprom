@@ -1,5 +1,10 @@
 version: '3'
 
+networks:
+  monitor-net:
+    driver: overlay
+    attachable: true
+
 volumes:
     prometheus_data: {}
     grafana_data: {}
@@ -24,7 +29,7 @@ services:
       - monitor-net
 
   unsee:
-    image: cloudflare/unsee:v0.8.0
+    image: cloudflare/unsee:latest
     environment:
       - "ALERTMANAGER_URIS=default:http://alertmanager:9093"
     networks:
