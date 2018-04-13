@@ -52,6 +52,8 @@ services:
 
   nvidiaexporter:
     image: mikewolfd/nvidiadocprom
+    expose:
+      - 9101
     deploy:
       mode: global
       resources:

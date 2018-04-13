@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 
 networks:
   monitor-net:
@@ -31,7 +31,7 @@ services:
   unsee:
     image: cloudflare/unsee:latest
     environment:
-      - "ALERTMANAGER_URIS=default:http://alertmanager:9093"
+      - "ALERTMANAGER_URI=http://alertmanager:9093"
     networks:
       - monitor-net
 
