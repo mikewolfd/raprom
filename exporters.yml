@@ -19,7 +19,7 @@ services:
 
 
   cadvisor:
-    image: google/cadvisor:latest
+    image: google/cadvisor:v0.29.0
     ports:
       - "8080:8080"
     volumes:
