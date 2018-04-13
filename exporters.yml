@@ -1,16 +1,11 @@
 version: '3.3'
 
-networks:
-  monitor-net:
-    driver: overlay
-    attachable: true
-
 services:
 
   nodeexporter:
     image: prom/node-exporter:latest
-    networks:
-      - monitor-net
+    ports:
+      - "9100:9100"
     deploy:
       mode: global
       resources:
@@ -32,8 +27,8 @@ services:
 
   cadvisor:
     image: google/cadvisor:latest
-    networks:
-      - monitor-net
+    ports:
+      - "8080:8080"
     deploy:
       mode: global
       resources:
@@ -52,8 +47,8 @@ services:
 
   nvidiaexporter:
     image: mikewolfd/nvidiadocprom
-    expose:
-      - 9101
+    ports:
+      - "9101:9101"
     deploy:
       mode: global
       resources:
@@ -61,5 +56,3 @@ services:
           memory: 128M
         reservations:
           memory: 64M
-    networks:
-      - monitor-net
