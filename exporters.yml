@@ -6,6 +6,7 @@ services:
     image: prom/node-exporter:latest
     ports:
       - "9100:9100"
+    restart: always
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -22,6 +23,7 @@ services:
     image: google/cadvisor:v0.29.0
     ports:
       - "8080:8080"
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /:/rootfs:ro
@@ -33,5 +35,6 @@ services:
 
   nvidiaexporter:
     image: mikewolfd/nvidiadocprom
+    restart: always
     ports:
       - "9101:9101"
